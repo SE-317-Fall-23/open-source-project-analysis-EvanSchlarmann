@@ -1,0 +1,56 @@
+## 2. Test Data Generation
+### A. Static Test Data
+- Explain if and how static test data is used in the project.
+- Provide examples of scenarios where static test data is employed.
+
+Static test data is used everywhere within the project to test the express application. The static test data is located within
+either the test cases or is loaded from the test folders that hold HTML or text files with predetermined data. This static data
+makes sure the application can perform the correct methods as the data within doesn't affect the method calls.
+
+describe('app', function(){
+  describe('.render(name, fn)', function(){
+    it('should support absolute paths', function(done){
+      var app = createApp();
+
+      app.locals.user = { name: 'tobi' };
+
+      app.render(path.join(__dirname, 'fixtures', 'user.tmpl'), function (err, str) {
+        if (err) return done(err);
+        assert.strictEqual(str, '<p>tobi</p>')
+        done();
+      })
+    })
+  })
+})
+
+This is an example where the name tobi is statically created within the test case. The test then retrieves the user.tmpl file to
+render it. This file has static HTML that is verified against to make sure it was retrieved correctly.
+
+describe('res', function(){
+  describe('.get(field)', function(){
+    it('should get the response header field', function (done) {
+      var app = express();
+
+      app.use(function (req, res) {
+        res.setHeader('Content-Type', 'text/x-foo');
+        res.send(res.get('Content-Type'));
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'text/x-foo', done);
+    })
+  })
+})
+
+This is an example where the application uses only static data within the test case itself. It sets the content type to the static
+data and then expects that static data to be returned after the request is made.
+
+### B. Dynamic Test Data
+- Explain if and how dynamic test data is used in the project.
+- Provide examples of scenarios where dynamic test data is generated.
+
+Dynamic test data is not used within the application as the application is not a data driven application. The application is
+a web server that is used to serve data and to render HTML files. It doesn't matter what data is being sent only that the data
+is correctly sent and can be retrieved. There are a limited amount of ways that the system can be interacted with and each case
+is tested with static data to make sure it operates correctly. The application is not concerned with user validation.

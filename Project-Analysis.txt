@@ -1,0 +1,131 @@
+Project Selected: Express
+I. Introduction
+
+This Analysis highlights two tests cases within the Express application. It goes into detail about what the test cases verify,
+the steps taken in the test, and how the code transitions states to get to the expected state. This helps in understanding the
+importance of tests in while giving experience to a well designed open-source project.
+
+II. Test Case 1: res.get.js
+
+A. Description
+Provide a concise overview of what this test case is designed to verify or validate within the project.
+
+This test case verifies that express can get a response header field along with its status.
+
+B. Gherkin Syntax (if applicable)
+If you choose to use Gherkin syntax, write the Gherkin scenario for this test case.
+
+  Scenario: Get request is sent to the application
+    Given the header is set to content type text/x-foo
+    And the response returns the content type
+    When the request is sent to the app
+    Then getting the response should return status 200 with value of text/x-foo
+
+C. Test Steps
+Enumerate the sequence of steps or actions involved in the test case.
+
+First the test sets up any imports that are needed for creating and mocking the application.
+It then creates the express application.
+It uses supertest to mock the request setting the content header and response value.
+It then sends the request to the application.
+Finally, it checks the response to see if it is the correct type and status.
+
+D. Code Segments Under Test
+Identify specific code segments or functions that are being tested in this case.
+
+res.send(res.get('Content-Type'));
+
+The test is testing the get request header field method. The snippet above is used to test get by retrieving the content type of the response.
+It then gets the response by using a get request to check the correct response header field is returned. Below is the code being tested.
+
+/**
+ * Get value for header `field`.
+ *
+ * @param {String} field
+ * @return {String}
+ * @public
+ */
+
+res.get = function(field){
+  return this.getHeader(field);
+};
+
+E. Initial State
+Describe the initial state or conditions of the system or component before executing the test.
+
+Before the test there are initial states for the express app and the request. They are set equal to the
+imports needed to create the application and mock the request.
+
+F. Transition
+Explain the actions or events that trigger a change in the system's state.
+
+The transition is when a get request is created for the application. This request sets the header type and then
+for the response sends the content type header field. Using request mock object the get request is made to
+retrieve the response header field.
+
+G. Expected State
+Clearly outline the expected state or outcome after the test steps have been completed.
+
+The expected state is that the response should have a 200 status and the content should be 'text/x-foo'.
+
+
+
+III. Test Case 2: res.status.js 'when code is 403'
+A. Description
+Provide a concise overview of the purpose of the second test case.
+
+This test case verifies that express can set the status of a response to 403 and return the correct status when the request is sent.
+
+B. Gherkin Syntax (if applicable)
+If you choose to use Gherkin syntax, write the Gherkin scenario for this test case.
+
+    Scenario: Set status to 403
+        Given the status is set to 403
+        And the response returns the status
+        When the request is sent to the app
+        Then getting the response should return status 403
+
+C. Test Steps
+Enumerate the sequence of steps or actions involved in this test case.
+
+First the test sets up any imports that are needed for creating and mocking the application.
+It then creates the express application.
+It uses supertest to mock the request setting the status to 403 and ending the response
+It then sends the request to the application.
+Finally, it checks the response status to make sure it returned 403.
+
+D. Code Segments Under Test
+Identify specific code segments or functions that are being tested in this case.
+
+app.use(function (req, res) {
+          res.status(403).end()
+        })
+
+The above snippet is testing the res.status method. It sets the status to 403 and ends the response.
+The test is checking to make sure the status is set to 403. Below is the code being tested.
+
+res.status = function status(code) {
+  if ((typeof code === 'string' || Math.floor(code) !== code) && code > 99 && code < 1000) {
+    deprecate('res.status(' + JSON.stringify(code) + '): use res.status(' + Math.floor(code) + ') instead')
+  }
+  this.statusCode = code;
+  return this;
+};
+
+// Enter code
+E. Initial State
+Describe the initial state or conditions of the system or component before executing the test.
+
+Before the test there are initial states for the express app and the request. They are set equal to the
+imports needed to create the application and mock the request.
+
+F. Transition
+Explain the actions or events that trigger a change in the system's state.
+
+The application is created and the app is given a response that has a status of 403. The request is mocked using supertest
+which retrieves the response status from the application.
+
+G. Expected State
+Clearly outline the expected state or outcome after the test steps have been completed.
+
+The expected state is that the response of the application is 403.
