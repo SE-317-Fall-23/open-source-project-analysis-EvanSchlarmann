@@ -1,7 +1,5 @@
 ## 2. Test Data Generation
 ### A. Static Test Data
-- Explain if and how static test data is used in the project.
-- Provide examples of scenarios where static test data is employed.
 
 Static test data is used everywhere within the project to test the express application. The static test data is located within
 either the test cases or is loaded from the test folders that hold HTML or text files with predetermined data. This static data
@@ -47,8 +45,6 @@ This is an example where the application uses only static data within the test c
 data and then expects that static data to be returned after the request is made.
 
 ### B. Dynamic Test Data
-- Explain if and how dynamic test data is used in the project.
-- Provide examples of scenarios where dynamic test data is generated.
 
 Dynamic test data is not used within the application as the application is not a data driven application. The application is
 a web server that is used to serve data and to render HTML files. It doesn't matter what data is being sent only that the data
